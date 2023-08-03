@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#Assign the command-line arguments to variables
+server_name=$1 
+availability_zone=$2
+blueprint_id=$3
+bundle_id=$4
+key_pair_name=$5
+
+#$1-Name of the Lightsail server instance
+#$2-The instance plan for the server
+#$3-The AWS region where you want to create the server
+#$4-The ID fo the OS blueprint for your server
+#$5-The name of the SSH key pair for server access
+
+
+#Create the Lightsail instance and capture the response
+response=$(aws lightsail create-instances --instance-names "$server_name" --availability-zone 
+"$availability_zone" --blueprint-id "$blueprint_id" --bundle-id "$bundle_id" --key-pair-name 
+"$key_pair_name" --output json)
+
+#Extract the instance ID from the response using jq
+instance_id=$(echo "$response" | jq -r '.operations[].resourceName')
+
+#Allocate a static IP address for the instance
+ip_response=$(aws lightsail allocate-static-ip --instance-name "$server_name" --output json)
+
+#Extract the static IP address from the response using jq
+static_ip=$(echo "$ip_response" | jq -r '.staticIp.name')
+
+#Attach the static IP address to the instance
+attach_response=$(aws lightsail attach-static-ip --static-ip-name "$static_ip" 
+--instance-name "$server_name")
+
+#Print the instance ID and static IP address
+echo "Instance created with ID: $instance_id"
+echo "Static IP address: $static_ip"
+
