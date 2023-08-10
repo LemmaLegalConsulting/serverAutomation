@@ -20,9 +20,6 @@ aws lightsail create-instances \
     --user-data '#!/bin/bash\napt update -y && apt upgrade -y' \
     --tags "key=Name,value=$server_name"
 
-# Wait for the instance to be running
-aws lightsail wait instance-running --instance-name "$server_name"
-
 # Get the public IP address of the instance
 ip_address=$(aws lightsail get-instance --instance-name "$server_name" 
 --query "instance.publicIpAddress" --output text)
