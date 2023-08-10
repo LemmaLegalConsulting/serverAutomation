@@ -10,7 +10,7 @@ instance_plan="$2"    # The instance plan for your server
 region="$3"                # The AWS region where you want to create the 
 server
 blueprint_id="$4"        # The ID of the OS blueprint for your server
-#key_pair_name="$5"    # The name of the SSH key pair for server access
+
 
 # Create a new Lightsail instance
 aws lightsail create-instances \
