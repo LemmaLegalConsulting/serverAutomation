@@ -7,8 +7,7 @@ fi
 #Assign command-line arguments to variables
 server_name="$1"  # The name of your Lightsail server instance
 instance_plan="$2"    # The instance plan for your server
-region="$3"                # The AWS region where you want to create the 
-server
+region="$3"                # The AWS region where you want to create the server
 blueprint_id="$4"        # The ID of the OS blueprint for your server
 
 
